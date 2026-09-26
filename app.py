@@ -217,10 +217,7 @@ stage = st.session_state.stage
 
 if stage == "Home":
 
-    st.markdown(
-    "Think clearly. Build boldly.",
-    unsafe_allow_html=False
-    )
+    st.title("Think clearly. Build boldly.")
 
     st.write(
         "Practice solving unfamiliar Data Science and AI "
