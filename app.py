@@ -15,13 +15,12 @@ from skills import DOMAINS, DIFFICULTIES
 
 st.set_page_config(
     page_title="ThinkForge",
-    page_icon=None,
     layout="wide"
 )
 
 
 # =========================================================
-# CUSTOM CSS
+# CUSTOM STYLE
 # =========================================================
 
 st.markdown(
@@ -37,81 +36,46 @@ st.markdown(
         background-color: #F0EAFB;
     }
 
-    .thinkforge-hero {
-        background: linear-gradient(
-            135deg,
-            #EEE7FF 0%,
-            #F8F0FF 100%
-        );
+    .hero {
+        background: linear-gradient(135deg, #EEE7FF, #F8F0FF);
         padding: 32px;
         border-radius: 22px;
         border: 1px solid #E3D8FA;
         margin-bottom: 28px;
     }
 
-    .thinkforge-hero-title {
+    .hero-title {
         font-size: 42px;
         font-weight: 700;
         color: #28243A;
-        margin-bottom: 10px;
         line-height: 1.15;
+        margin-bottom: 10px;
     }
 
-    .thinkforge-hero-text {
+    .hero-text {
         font-size: 17px;
         color: #625B70;
         line-height: 1.6;
-        margin: 0;
     }
 
-    .info-card {
-        background-color: #FFFFFF;
+    .card {
+        background-color: white;
         padding: 22px;
         border-radius: 18px;
         border: 1px solid #EAE4F3;
-        min-height: 145px;
+        margin-bottom: 15px;
     }
 
-    .info-card-title {
+    .card-title {
         font-size: 20px;
         font-weight: 650;
         color: #28243A;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
 
-    .info-card-text {
+    .card-text {
         color: #625B70;
         line-height: 1.55;
-    }
-
-    .challenge-card {
-        background-color: #FFFFFF;
-        padding: 25px;
-        border-radius: 20px;
-        border: 1px solid #EAE4F3;
-        margin: 15px 0;
-    }
-
-    .challenge-title {
-        font-size: 23px;
-        font-weight: 650;
-        color: #28243A;
-        margin-bottom: 12px;
-    }
-
-    .challenge-text {
-        color: #625B70;
-        line-height: 1.65;
-        font-size: 16px;
-    }
-
-    .section-label {
-        color: #7254C8;
-        font-size: 14px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 6px;
     }
 
     div.stButton > button {
@@ -119,7 +83,6 @@ st.markdown(
         color: white;
         border: none;
         border-radius: 11px;
-        padding: 0.55rem 1rem;
         font-weight: 600;
     }
 
@@ -242,7 +205,7 @@ with st.sidebar:
 
 
 # =========================================================
-# CURRENT STAGE
+# CURRENT PAGE
 # =========================================================
 
 stage = st.session_state.stage
@@ -256,11 +219,12 @@ if stage == "Home":
 
     st.markdown(
         """
-        <div class="thinkforge-hero">
-            <div class="thinkforge-hero-title">
+        <div class="hero">
+            <div class="hero-title">
                 Think clearly. Build boldly.
             </div>
-            <div class="thinkforge-hero-text">
+
+            <div class="hero-text">
                 Practice solving unfamiliar Data Science and AI
                 problems with an AI coach that helps you think
                 instead of thinking for you.
@@ -270,27 +234,25 @@ if stage == "Home":
         unsafe_allow_html=True
     )
 
-    c1, c2, c3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    with c1:
+    with col1:
         st.metric(
             "Challenges generated",
             st.session_state.generated_count
         )
 
-    with c2:
+    with col2:
         st.metric(
             "Thinking reports",
             1 if st.session_state.thinking_report else 0
         )
 
-    with c3:
+    with col3:
         st.metric(
             "Practice mode",
             "Coach-first"
         )
-
-    st.write("")
 
     st.subheader("Your next step")
 
@@ -306,8 +268,6 @@ if stage == "Home":
     ):
         go("Practice")
 
-    st.write("")
-
     st.subheader("How ThinkForge works")
 
     col1, col2, col3, col4 = st.columns(4)
@@ -315,11 +275,9 @@ if stage == "Home":
     with col1:
         st.markdown(
             """
-            <div class="info-card">
-                <div class="info-card-title">
-                    Investigate
-                </div>
-                <div class="info-card-text">
+            <div class="card">
+                <div class="card-title">Investigate</div>
+                <div class="card-text">
                     Understand the problem before jumping
                     to a solution.
                 </div>
@@ -331,11 +289,9 @@ if stage == "Home":
     with col2:
         st.markdown(
             """
-            <div class="info-card">
-                <div class="info-card-title">
-                    Reason
-                </div>
-                <div class="info-card-text">
+            <div class="card">
+                <div class="card-title">Reason</div>
+                <div class="card-text">
                     Build hypotheses, compare alternatives
                     and examine assumptions.
                 </div>
@@ -347,11 +303,9 @@ if stage == "Home":
     with col3:
         st.markdown(
             """
-            <div class="info-card">
-                <div class="info-card-title">
-                    Experiment
-                </div>
-                <div class="info-card-text">
+            <div class="card">
+                <div class="card-title">Experiment</div>
+                <div class="card-text">
                     Design a small test and decide what
                     evidence matters.
                 </div>
@@ -363,11 +317,9 @@ if stage == "Home":
     with col4:
         st.markdown(
             """
-            <div class="info-card">
-                <div class="info-card-title">
-                    Transfer
-                </div>
-                <div class="info-card-text">
+            <div class="card">
+                <div class="card-title">Transfer</div>
+                <div class="card-text">
                     Solve a different problem using the
                     same underlying skill.
                 </div>
@@ -390,8 +342,6 @@ elif stage == "Practice":
         "generate a fresh problem for you."
     )
 
-    st.write("")
-
     col1, col2 = st.columns(2)
 
     with col1:
@@ -410,34 +360,25 @@ elif stage == "Practice":
 
     domain = DOMAINS[selected_skill]
 
-    st.write("")
-
     st.markdown(
-        """
-        <div class="challenge-card">
+        f"""
+        <div class="card">
+            <div class="card-title">
+                {selected_skill}
+            </div>
+
+            <div class="card-text">
+                {domain["description"]}
+            </div>
+        </div>
         """,
         unsafe_allow_html=True
-    )
-
-    st.markdown(
-        f"**{selected_skill}**"
-    )
-
-    st.write(
-        domain["description"]
     )
 
     st.write(
         "Concepts: "
         + ", ".join(domain["concepts"])
     )
-
-    st.markdown(
-        "</div>",
-        unsafe_allow_html=True
-    )
-
-    st.write("")
 
     if st.button(
         "Generate New Challenge",
@@ -497,8 +438,8 @@ elif stage == "Workspace":
 
     st.markdown(
         f"""
-        <div class="challenge-card">
-            <div class="challenge-text">
+        <div class="card">
+            <div class="card-text">
                 {challenge.get("scenario", "")}
             </div>
         </div>
@@ -534,9 +475,9 @@ elif stage == "Workspace":
     )
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # INVESTIGATE
-    # -----------------------------------------------------
+    # =====================================================
 
     with tabs[0]:
 
@@ -562,9 +503,9 @@ elif stage == "Workspace":
         )
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # REASON
-    # -----------------------------------------------------
+    # =====================================================
 
     with tabs[1]:
 
@@ -595,9 +536,9 @@ elif stage == "Workspace":
         )
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # EXPERIMENT
-    # -----------------------------------------------------
+    # =====================================================
 
     with tabs[2]:
 
@@ -632,9 +573,9 @@ elif stage == "Workspace":
         )
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # AI COACH
-    # -----------------------------------------------------
+    # =====================================================
 
     with tabs[3]:
 
@@ -701,9 +642,9 @@ elif stage == "Workspace":
                 st.write("")
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # INDEPENDENT CHECK
-    # -----------------------------------------------------
+    # =====================================================
 
     with tabs[4]:
 
@@ -739,13 +680,19 @@ elif stage == "Workspace":
 
             st.markdown(
                 f"""
-                <div class="challenge-card">
-                    <div class="challenge-title">
-                        {check.get("title", "Independent Check")}
+                <div class="card">
+                    <div class="card-title">
+                        {check.get(
+                            "title",
+                            "Independent Check"
+                        )}
                     </div>
 
-                    <div class="challenge-text">
-                        {check.get("scenario", "")}
+                    <div class="card-text">
+                        {check.get(
+                            "scenario",
+                            ""
+                        )}
                     </div>
                 </div>
                 """,
@@ -810,9 +757,9 @@ elif stage == "Workspace":
                     )
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # THINKING REPORT
-    # -----------------------------------------------------
+    # =====================================================
 
     with tabs[5]:
 
@@ -872,14 +819,13 @@ elif stage == "Workspace":
                         key,
                         "No feedback available."
                     )
+                )
 
                 st.write("")
 
             st.divider()
 
-            st.markdown(
-                "**What you did well**"
-            )
+            st.markdown("**What you did well**")
 
             for strength in report.get(
                 "strengths",
@@ -892,9 +838,7 @@ elif stage == "Workspace":
 
             st.write("")
 
-            st.markdown(
-                "**Growth Opportunity**"
-            )
+            st.markdown("**Growth Opportunity**")
 
             st.write(
                 report.get(
@@ -905,9 +849,7 @@ elif stage == "Workspace":
 
             st.write("")
 
-            st.markdown(
-                "**Concepts Practiced**"
-            )
+            st.markdown("**Concepts Practiced**")
 
             concepts = report.get(
                 "concepts_practiced",
@@ -921,9 +863,7 @@ elif stage == "Workspace":
 
             st.write("")
 
-            st.markdown(
-                "**Next Practice**"
-            )
+            st.markdown("**Next Practice**")
 
             st.write(
                 report.get(
@@ -1004,11 +944,17 @@ elif stage == "My Progress":
                 )
 
                 st.caption(
-                    f"Skill: {challenge.get('skill', 'Data Science')}"
+                    f"Skill: {challenge.get(
+                        'skill',
+                        'Data Science'
+                    )}"
                 )
 
                 st.caption(
-                    f"Difficulty: {challenge.get('difficulty', 'Practice')}"
+                    f"Difficulty: {challenge.get(
+                        'difficulty',
+                        'Practice'
+                    )}"
                 )
 
     st.divider()
