@@ -1,7 +1,15 @@
 import streamlit as st
 from challenges import CHALLENGES
 from coach import coach_reply, evaluate_independent_attempt
+from challenge_generator import generate_challenge
+from coach import coach_reply
 
+from evaluator import (
+    generate_independent_check,
+    generate_thinking_report
+)
+
+from skills import DOMAINS, DIFFICULTIES
 st.set_page_config(page_title="ThinkForge", page_icon=None, layout="wide")
 
 PURPLE = "#7254C8"
