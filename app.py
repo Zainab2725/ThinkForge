@@ -218,20 +218,14 @@ stage = st.session_state.stage
 if stage == "Home":
 
     st.markdown(
-        """
-        <div class="hero">
-            <div class="hero-title">
-                Think clearly. Build boldly.
-            </div>
+    "Think clearly. Build boldly.",
+    unsafe_allow_html=False
+    )
 
-            <div class="hero-text">
-                Practice solving unfamiliar Data Science and AI
-                problems with an AI coach that helps you think
-                instead of thinking for you.
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.write(
+        "Practice solving unfamiliar Data Science and AI "
+        "problems with an AI coach that helps you think "
+        "instead of thinking for you."
     )
 
     col1, col2, col3 = st.columns(3)
