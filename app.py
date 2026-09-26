@@ -20,78 +20,32 @@ st.set_page_config(
 
 
 # =========================================================
-# CUSTOM STYLE
+# SIMPLE THEME
 # =========================================================
 
 st.markdown(
     """
     <style>
-
     .stApp {
         background-color: #FBF8F3;
-        color: #28243A;
     }
 
     [data-testid="stSidebar"] {
         background-color: #F0EAFB;
     }
 
-    .hero {
-        background: linear-gradient(135deg, #EEE7FF, #F8F0FF);
-        padding: 32px;
-        border-radius: 22px;
-        border: 1px solid #E3D8FA;
-        margin-bottom: 28px;
-    }
-
-    .hero-title {
-        font-size: 42px;
-        font-weight: 700;
-        color: #28243A;
-        line-height: 1.15;
-        margin-bottom: 10px;
-    }
-
-    .hero-text {
-        font-size: 17px;
-        color: #625B70;
-        line-height: 1.6;
-    }
-
-    .card {
-        background-color: white;
-        padding: 22px;
-        border-radius: 18px;
-        border: 1px solid #EAE4F3;
-        margin-bottom: 15px;
-    }
-
-    .card-title {
-        font-size: 20px;
-        font-weight: 650;
-        color: #28243A;
-        margin-bottom: 8px;
-    }
-
-    .card-text {
-        color: #625B70;
-        line-height: 1.55;
-    }
-
     div.stButton > button {
         background-color: #7254C8;
         color: white;
         border: none;
-        border-radius: 11px;
+        border-radius: 10px;
         font-weight: 600;
     }
 
     div.stButton > button:hover {
         background-color: #5D40B3;
         color: white;
-        border: none;
     }
-
     </style>
     """,
     unsafe_allow_html=True
@@ -122,7 +76,9 @@ defaults = {
     "experiment_change": "",
     "experiment_measure": "",
     "experiment_success": "",
-    "experiment_failure": ""
+    "experiment_failure": "",
+
+    "coach_question": ""
 }
 
 for key, value in defaults.items():
@@ -150,6 +106,7 @@ def reset_workspace():
     st.session_state.thinking_report = None
     st.session_state.independent_check = None
     st.session_state.independent_answer = ""
+    st.session_state.coach_question = ""
 
     st.session_state.observation = ""
     st.session_state.hypothesis = ""
@@ -162,6 +119,26 @@ def reset_workspace():
     st.session_state.experiment_measure = ""
     st.session_state.experiment_success = ""
     st.session_state.experiment_failure = ""
+
+
+# =========================================================
+# STUDENT STATE
+# =========================================================
+
+def get_student_state():
+
+    return {
+        "observation": st.session_state.observation,
+        "hypothesis": st.session_state.hypothesis,
+        "evidence": st.session_state.evidence,
+        "alternatives": st.session_state.alternatives,
+        "decision": st.session_state.decision,
+        "assumption": st.session_state.assumption,
+        "experiment_change": st.session_state.experiment_change,
+        "experiment_measure": st.session_state.experiment_measure,
+        "experiment_success": st.session_state.experiment_success,
+        "experiment_failure": st.session_state.experiment_failure
+    }
 
 
 # =========================================================
@@ -225,6 +202,8 @@ if stage == "Home":
         "instead of thinking for you."
     )
 
+    st.write("")
+
     col1, col2, col3 = st.columns(3)
 
     with col1:
@@ -245,6 +224,8 @@ if stage == "Home":
             "Coach-first"
         )
 
+    st.write("")
+
     st.subheader("Your next step")
 
     st.write(
@@ -259,64 +240,38 @@ if stage == "Home":
     ):
         go("Practice")
 
+    st.write("")
+
     st.subheader("How ThinkForge works")
 
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        st.markdown(
-            """
-            <div class="card">
-                <div class="card-title">Investigate</div>
-                <div class="card-text">
-                    Understand the problem before jumping
-                    to a solution.
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.markdown("**Investigate**")
+        st.write(
+            "Understand the problem before jumping "
+            "to a solution."
         )
 
     with col2:
-        st.markdown(
-            """
-            <div class="card">
-                <div class="card-title">Reason</div>
-                <div class="card-text">
-                    Build hypotheses, compare alternatives
-                    and examine assumptions.
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.markdown("**Reason**")
+        st.write(
+            "Build hypotheses, compare alternatives "
+            "and examine assumptions."
         )
 
     with col3:
-        st.markdown(
-            """
-            <div class="card">
-                <div class="card-title">Experiment</div>
-                <div class="card-text">
-                    Design a small test and decide what
-                    evidence matters.
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.markdown("**Experiment**")
+        st.write(
+            "Design a small test and decide what "
+            "evidence matters."
         )
 
     with col4:
-        st.markdown(
-            """
-            <div class="card">
-                <div class="card-title">Transfer</div>
-                <div class="card-text">
-                    Solve a different problem using the
-                    same underlying skill.
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.markdown("**Transfer**")
+        st.write(
+            "Solve a different problem using the "
+            "same underlying skill."
         )
 
 
@@ -332,6 +287,8 @@ elif stage == "Practice":
         "Select a skill and difficulty. ThinkForge will "
         "generate a fresh problem for you."
     )
+
+    st.write("")
 
     col1, col2 = st.columns(2)
 
@@ -351,25 +308,19 @@ elif stage == "Practice":
 
     domain = DOMAINS[selected_skill]
 
-    st.markdown(
-        f"""
-        <div class="card">
-            <div class="card-title">
-                {selected_skill}
-            </div>
+    st.write("")
 
-            <div class="card-text">
-                {domain["description"]}
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown(f"**{selected_skill}**")
+
+    st.write(domain["description"])
+
+    st.markdown("**Concepts practiced**")
 
     st.write(
-        "Concepts: "
-        + ", ".join(domain["concepts"])
+        ", ".join(domain["concepts"])
     )
+
+    st.write("")
 
     if st.button(
         "Generate New Challenge",
@@ -427,15 +378,11 @@ elif stage == "Workspace":
 
     st.subheader("The Challenge")
 
-    st.markdown(
-        f"""
-        <div class="card">
-            <div class="card-text">
-                {challenge.get("scenario", "")}
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.write(
+        challenge.get(
+            "scenario",
+            ""
+        )
     )
 
     if challenge.get("known_information"):
@@ -587,18 +534,7 @@ elif stage == "Workspace":
             key="ask_coach"
         ):
 
-            student_state = {
-                "observation": st.session_state.observation,
-                "hypothesis": st.session_state.hypothesis,
-                "evidence": st.session_state.evidence,
-                "alternatives": st.session_state.alternatives,
-                "decision": st.session_state.decision,
-                "assumption": st.session_state.assumption,
-                "experiment_change": st.session_state.experiment_change,
-                "experiment_measure": st.session_state.experiment_measure,
-                "experiment_success": st.session_state.experiment_success,
-                "experiment_failure": st.session_state.experiment_failure
-            }
+            student_state = get_student_state()
 
             reply = coach_reply(
                 challenge,
@@ -626,8 +562,8 @@ elif stage == "Workspace":
                     f"**You:** {message['student']}"
                 )
 
-                st.markdown(
-                    f"**ThinkForge Coach:** {message['coach']}"
+                st.write(
+                    message["coach"]
                 )
 
                 st.write("")
@@ -670,27 +606,17 @@ elif stage == "Workspace":
             check = st.session_state.independent_check
 
             st.markdown(
-                f"""
-                <div class="card">
-                    <div class="card-title">
-                        {check.get(
-                            "title",
-                            "Independent Check"
-                        )}
-                    </div>
-
-                    <div class="card-text">
-                        {check.get(
-                            "scenario",
-                            ""
-                        )}
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True
+                f"**{check.get('title', 'Independent Check')}**"
             )
 
-            st.warning(
+            st.write(
+                check.get(
+                    "scenario",
+                    ""
+                )
+            )
+
+            st.info(
                 "Try this without AI or external help."
             )
 
@@ -718,18 +644,7 @@ elif stage == "Workspace":
 
                 else:
 
-                    student_state = {
-                        "observation": st.session_state.observation,
-                        "hypothesis": st.session_state.hypothesis,
-                        "evidence": st.session_state.evidence,
-                        "alternatives": st.session_state.alternatives,
-                        "decision": st.session_state.decision,
-                        "assumption": st.session_state.assumption,
-                        "experiment_change": st.session_state.experiment_change,
-                        "experiment_measure": st.session_state.experiment_measure,
-                        "experiment_success": st.session_state.experiment_success,
-                        "experiment_failure": st.session_state.experiment_failure
-                    }
+                    student_state = get_student_state()
 
                     with st.spinner(
                         "Preparing your Thinking Report..."
@@ -818,10 +733,12 @@ elif stage == "Workspace":
 
             st.markdown("**What you did well**")
 
-            for strength in report.get(
+            strengths = report.get(
                 "strengths",
                 []
-            ):
+            )
+
+            for strength in strengths:
 
                 st.write(
                     f"• {strength}"
@@ -848,6 +765,7 @@ elif stage == "Workspace":
             )
 
             if concepts:
+
                 st.write(
                     ", ".join(concepts)
                 )
