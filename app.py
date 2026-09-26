@@ -1,5 +1,4 @@
 import streamlit as st
-from challenges import CHALLENGES
 from coach import coach_reply, evaluate_independent_attempt
 from challenge_generator import generate_challenge
 from coach import coach_reply
